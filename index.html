@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>measurement form test</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #0b172a;
+        --card: #12233f;
+        --accent: #4ade80;
+        --accent-strong: #22c55e;
+        --text: #e5e7eb;
+        --muted: #9ca3af;
+        --border: #1f2f4d;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: radial-gradient(circle at 20% 20%, rgba(34, 197, 94, 0.08), transparent 25%),
+          radial-gradient(circle at 80% 0%, rgba(56, 189, 248, 0.12), transparent 30%),
+          var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 48px 16px;
+      }
+
+      .shell {
+        width: min(1040px, 100%);
+        background: linear-gradient(145deg, rgba(18, 35, 63, 0.9), rgba(10, 22, 41, 0.95));
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 28px;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(8px);
+      }
+
+      h1 {
+        margin: 0 0 20px;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 20px;
+      }
+
+      .panel {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 18px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+      }
+
+      .panel h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+
+      .file-area {
+        border: 1px dashed #3b82f6;
+        border-radius: 12px;
+        padding: 18px;
+        text-align: center;
+        background: rgba(59, 130, 246, 0.06);
+        transition: all 0.2s ease;
+        cursor: pointer;
+      }
+
+      .file-area.dragging {
+        border-color: var(--accent);
+        background: rgba(34, 197, 94, 0.12);
+        box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+      }
+
+      .file-area p {
+        margin: 6px 0;
+        color: var(--muted);
+      }
+
+      .file-name {
+        margin-top: 8px;
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .actions {
+        margin-top: 12px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      button,
+      .select-btn {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 14px;
+        background: linear-gradient(135deg, #1f2f4d, #172742);
+        color: var(--text);
+        cursor: pointer;
+        font-weight: 600;
+        transition: transform 0.15s ease, background 0.15s ease;
+      }
+
+      button:hover,
+      .select-btn:hover {
+        background: linear-gradient(135deg, #23385d, #1b3050);
+        transform: translateY(-1px);
+      }
+
+      button.primary {
+        background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+        color: #052e16;
+        border: none;
+      }
+
+      button.primary:hover {
+        transform: translateY(-1px) scale(1.01);
+        box-shadow: 0 8px 18px rgba(34, 197, 94, 0.25);
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-top: 12px;
+      }
+
+      .field label {
+        font-weight: 600;
+      }
+
+      input[type="text"] {
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 220px;
+        resize: vertical;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        padding: 12px;
+        background: rgba(0, 0, 0, 0.25);
+        color: var(--text);
+        font-family: "JetBrains Mono", "SFMono-Regular", ui-monospace, SFMono-Regular, Menlo,
+          Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      }
+
+      .status {
+        margin-top: 14px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      .status.good {
+        color: var(--accent);
+      }
+
+      .status.error {
+        color: #fb7185;
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 24px 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <app-root>Loading...</app-root>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "@angular/core": "https://cdn.jsdelivr.net/npm/@angular/core@17.3.10/+esm",
+          "@angular/common": "https://cdn.jsdelivr.net/npm/@angular/common@17.3.10/+esm",
+          "@angular/common/http": "https://cdn.jsdelivr.net/npm/@angular/common@17.3.10/+esm",
+          "@angular/platform-browser": "https://cdn.jsdelivr.net/npm/@angular/platform-browser@17.3.10/+esm",
+          "@angular/compiler": "https://cdn.jsdelivr.net/npm/@angular/compiler@17.3.10/+esm",
+          "rxjs": "https://cdn.jsdelivr.net/npm/rxjs@7.8.1/+esm",
+          "rxjs/operators": "https://cdn.jsdelivr.net/npm/rxjs@7.8.1/operators/+esm",
+          "tslib": "https://cdn.jsdelivr.net/npm/tslib@2.6.2/+esm",
+          "zone.js": "https://cdn.jsdelivr.net/npm/zone.js@0.14.6/+esm"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import 'zone.js';
+      import { Component, inject } from '@angular/core';
+      import { bootstrapApplication } from '@angular/platform-browser';
+      import { HttpClient, HttpErrorResponse, provideHttpClient } from '@angular/common/http';
+
+      @Component({
+        selector: 'app-root',
+        standalone: true,
+        template: `
+          <div class="shell">
+            <h1>{{ title }}</h1>
+            <div class="grid">
+              <section class="panel">
+                <h2>Image upload</h2>
+                <div
+                  class="file-area"
+                  [class.dragging]="dragging"
+                  (dragover)="onDragOver($event)"
+                  (dragleave)="onDragLeave($event)"
+                  (drop)="onDrop($event)"
+                  (click)="fileInput.click()"
+                >
+                  <p>Drag and drop an image here or click to browse</p>
+                  <p class="file-name">{{ fileName }}</p>
+                </div>
+                <div class="actions">
+                  <button class="select-btn" type="button" (click)="fileInput.click()">Choose file</button>
+                  <button class="primary" type="button" (click)="upload()">Upload</button>
+                </div>
+                <div class="field">
+                  <label for="tValue">Optional t value</label>
+                  <input
+                    id="tValue"
+                    type="text"
+                    placeholder="Enter text for t (optional)"
+                    [value]="tValue"
+                    (input)="tValue = $any($event.target).value"
+                  />
+                </div>
+                <input
+                  #fileInput
+                  hidden
+                  type="file"
+                  accept="image/*"
+                  (change)="onFileSelected($event)"
+                />
+              </section>
+
+              <section class="panel">
+                <h2>Response</h2>
+                <textarea readonly [value]="responseText" aria-label="JSON response"></textarea>
+                <div class="actions">
+                  <button type="button" (click)="clearResponse()">Clear</button>
+                  <button type="button" (click)="copyResponse()">Copy</button>
+                </div>
+              </section>
+            </div>
+            <p class="status" [class.good]="statusType === 'ok'" [class.error]="statusType === 'error'">
+              {{ statusMessage }}
+            </p>
+          </div>
+        `
+      })
+      class AppComponent {
+        title = 'measurement form test';
+        dragging = false;
+        selectedFile = null;
+        responseText = '';
+        statusMessage = '';
+        statusType = '';
+        tValue = '';
+        http = inject(HttpClient);
+
+        get fileName() {
+          return this.selectedFile?.name ?? 'No file selected';
+        }
+
+        onDragOver(event) {
+          event.preventDefault();
+          this.dragging = true;
+        }
+
+        onDragLeave(event) {
+          event.preventDefault();
+          this.dragging = false;
+        }
+
+        onDrop(event) {
+          event.preventDefault();
+          this.dragging = false;
+          const file = event.dataTransfer?.files?.[0];
+          if (file) {
+            this.selectedFile = file;
+          }
+        }
+
+        onFileSelected(event) {
+          const target = event.target;
+          const file = target?.files?.[0];
+          if (file) {
+            this.selectedFile = file;
+          }
+        }
+
+        upload() {
+          if (!this.selectedFile) {
+            this.setStatus('Please choose an image first.', 'error');
+            return;
+          }
+
+          const formData = new FormData();
+          formData.append('image', this.selectedFile);
+          if (this.tValue.trim()) {
+            formData.append('t', this.tValue.trim());
+          }
+
+          this.setStatus('Uploading...', '');
+
+          this.http
+            .post('http://localhost:5233/api/MeasurementForm/UploadImage', formData)
+            .subscribe({
+              next: (response) => {
+                this.responseText = JSON.stringify(response, null, 2);
+                this.setStatus('Upload complete.', 'ok');
+              },
+              error: (error) => {
+                const payload = error?.error ?? { status: error?.status, message: error?.message };
+                this.responseText = JSON.stringify(payload, null, 2);
+                this.setStatus('Upload failed.', 'error');
+              }
+            });
+        }
+
+        clearResponse() {
+          this.responseText = '';
+          this.setStatus('Response cleared.', '');
+        }
+
+        copyResponse() {
+          if (!this.responseText) {
+            this.setStatus('No response to copy.', 'error');
+            return;
+          }
+
+          navigator.clipboard
+            .writeText(this.responseText)
+            .then(() => this.setStatus('Copied to clipboard.', 'ok'))
+            .catch(() => this.setStatus('Unable to copy response.', 'error'));
+        }
+
+        setStatus(message, type) {
+          this.statusMessage = message;
+          this.statusType = type;
+        }
+      }
+
+      bootstrapApplication(AppComponent, { providers: [provideHttpClient()] }).catch((error) =>
+        console.error('Bootstrap error', error)
+      );
+    </script>
+  </body>
+</html>
